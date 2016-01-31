@@ -1,0 +1,10 @@
+# Leiningen
+/*.log
+/target
+/*-init.clj
+/resources/public/js/compiled
+out
+.lein-failures
+
+# IDE
+*.swp
