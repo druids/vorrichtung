@@ -1,5 +1,6 @@
 (ns vorrichtung.arg-validation
   (:require [clojure.string :as string]
+            [cognitect.transit :as transit]
             [reagent.core :as reagent]
             [goog.dom.dataset :as dataset]
             [goog.json :as json]
@@ -7,7 +8,12 @@
             [vorrichtung.utils :refer [dash->camel]]))
 
 
+(def json-reader (transit/reader :json))
+
+
 (defn validate-string
+  "Validates a given value as a `string`. Returns `string` or `nil` and `true` if the value is valid,
+   otherwise `false` as a `vector`."
   [value required]
   (let [value-is-nil? (nil? value)
         string-or-nil (if value-is-nil? value (str value))]
@@ -17,25 +23,33 @@
 
 
 (defn parse-json
+  "Parses JSON from `string` and validates via a given `validate-func`.
+   Returns a parsed value and `true` if the parsed value is valid,
+   otherwise `false` as a `vector`."
   [value validate-func]
   (try
-    (let [obj (json/parse value)]
-      [obj (validate-func obj)])
+    (let [obj (transit/read json-reader value)
+          valid? (validate-func obj)]
+      [(if valid? obj value) valid?])
     (catch :default e [value false])))
 
 
 (defn validate-object
+  "Validates a given value as a `map`. Returns `map` or `nil` and `true` if the value is valid,
+   otherwise `false` as a `vector`."
   [value required]
   (if (and (not required) (string/blank? value))
     [nil true]
-    (parse-json value goog/isObject)))
+    (parse-json value map?)))
 
 
 (defn validate-array
+  "Validates a given value as a `vector`. Returns `vector` or `nil` and `true` if the value is valid,
+   otherwise `false` as a `vector`."
   [value required]
   (if (and (not required) (string/blank? value))
     [nil true]
-    (parse-json value goog/isArray)))
+    (parse-json value vector?)))
 
 
 (defn extract-arg-value
