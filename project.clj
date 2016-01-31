@@ -1,4 +1,4 @@
-(defproject vorrichtung "0.0.0"
+(defproject vorrichtung "0.7.0"
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.170"]
                  [reagent "0.5.1"]
