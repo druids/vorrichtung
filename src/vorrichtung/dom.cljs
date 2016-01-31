@@ -2,10 +2,9 @@
 
 
 (defn nodelist->seq
-    "Converts nodelist to (not lazy) seq."
+    "Converts `NodeList` (live collection) to lazy sequence."
     [nl]
-    (let [result-seq (map #(.item nl %) (range (.-length nl)))]
-          (doall result-seq)))
+    (map #(.item nl %) (range (.-length nl))))
 
 
 (defn all
