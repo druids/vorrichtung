@@ -5,6 +5,9 @@ Vorrichtung is a lightweight framework for decorating server-side generated HTML
  [Re-frame](https://github.com/Day8/re-frame) and [Reagent](https://github.com/reagent-project/reagent).
 
 
+[![Build Status](https://travis-ci.org/druids/vorrichtung.svg?branch=master)](https://travis-ci.org/druids/vorrichtung)
+
+
 Installation
 ------------
 
