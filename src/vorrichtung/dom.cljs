@@ -10,3 +10,8 @@
 (defn all
   [selector]
   (nodelist->seq (js/document.querySelectorAll selector)))
+
+
+(defn one
+  [selector]
+  (js/document.querySelector selector))
