@@ -16,11 +16,13 @@
 
 (defn render-component
   [selector view el validated-args]
-  (if (string/blank? (.-id el))
-    (re-frame.utils/warn (str "Component with selector '" selector "' has an invalid ID '" (.-id el)"'"))
-    (reagent/render
-      (view el validated-args)
-      el)))
+  (when (string/blank? (.-id el))
+    (re-frame.utils/warn
+      (str "Component with selector '" selector "' has no ID ")
+      el))
+  (reagent/render
+    (view el validated-args)
+    el))
 
 
 (defn format-invalid-args
@@ -28,20 +30,29 @@
   (reduce-kv (fn [invalid-args arg-name [parsed-value valid?]]
                (if valid?
                  invalid-args
-                 (conj invalid-args (str (name arg-name) " -> '" parsed-value "'")))) [] parsed-args))
+                 (conj invalid-args (str (name arg-name) " -> '" parsed-value "'"))))
+             []
+             parsed-args))
 
 
 (defn log-invalid-component-args
-  [el args-desc parsed-args]
+  [el args-desc validated-args]
   (re-frame.utils/warn
-    (str "Invalid arguments for component #" (.-id el) ": " (string/join " " (format-invalid-args args-desc parsed-args)))))
+    (str "Invalid arguments for component #" (.-id el) ": " (string/join
+                                                              " "
+                                                              (format-invalid-args args-desc validated-args))))
+  nil)
+
+
+(defn all-args-are-valid?
+  [validated-args]
+  (every? true? (map (fn [[_ [_ valid?]]] valid?) validated-args)))
 
 
 (defn try-to-render-component
-  [selector component el]
-  (let [[view args-desc] (component)
-        validated-args (validate-args args-desc el)]
-    (if (every? true? (map (fn [[_ [_ valid?]]] valid?) validated-args))
+  [selector [view args-desc] el]
+  (let [validated-args (validate-args args-desc el)]
+    (if (all-args-are-valid? validated-args)
       (render-component selector view el validated-args)
       (log-invalid-component-args el args-desc validated-args))))
 

@@ -17,12 +17,7 @@
    {:name :foo3 :required false :type :array}])
 
 
-(defn simple-component
-  []
-  [simple-component-view simple-component-args-desc])
-
-
-(register-component ".simple-component" simple-component)
+(register-component ".simple-component" [simple-component-view simple-component-args-desc])
 
 
 (when config/debug?
