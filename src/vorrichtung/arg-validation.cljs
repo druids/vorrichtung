@@ -5,6 +5,7 @@
             [goog.dom.dataset :as dataset]
             [goog.json :as json]
             [vorrichtung.dom :as dom]
+            [vorrichtung.num :refer [str->int]]
             [vorrichtung.utils :refer [dash->camel]]))
 
 
@@ -52,6 +53,16 @@
     (parse-json value vector?)))
 
 
+(defn validate-int
+  "Validates a given value as a `int`. Returns `int` or `nil` and `true` if the value is a integer,
+   otherwise `false` as a `vector`."
+  [value required]
+  (let [parsed (str->int value)]
+    (if (and (not required) (string/blank? value))
+      [nil true]
+      [parsed (integer? parsed)])))
+
+
 (defn extract-arg-value
   [el arg]
   (dataset/get el (dash->camel (name (:name arg)))))
@@ -59,7 +70,8 @@
 
 (def validators (reagent/atom {:string validate-string
                                :object validate-object
-                               :array validate-array}))
+                               :array validate-array
+                               :int validate-int}))
 
 
 (defn validate-arg-with-validator
