@@ -1,6 +1,6 @@
 (ns vorrichtung.arg-validation-test
   (:require [cljs.test :refer-macros [deftest testing are]]
-            [vorrichtung.arg-validation :refer [validate-string validate-array validate-object]]))
+            [vorrichtung.arg-validation :refer [validate-string validate-array validate-object validate-int]]))
 
 
 (deftest validate-string-test
@@ -53,3 +53,19 @@
          "" true
          "{" true
          "[]" true)))
+
+
+(deftest validate-int-test
+  (testing "should be valid"
+    (are [integer required parsed] (= [parsed true] (validate-int integer required))
+         "" false nil
+         nil false nil
+         "10" false 10
+         "-10" true -10))
+
+  (testing "should not be valid"
+    (are [integer required] (= [nil false] (validate-int integer required))
+         "" true
+         nil true
+         "as" false
+         "as" true)))
