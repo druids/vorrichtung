@@ -2,7 +2,7 @@
   (:require [cljs.test :refer-macros [deftest testing is]]
             [goog.dom]
             [vorrichtung.dom :as dom]
-            [vorrichtung.core :refer [all-args-are-valid? format-invalid-args try-to-render-component render-component]]))
+            [vorrichtung.core :refer [all-args-are-valid? format-invalid-args process-control render-component]]))
 
 
 (deftest all-args-are-valid?-test
@@ -35,9 +35,11 @@
       el)))
 
 
-(deftest try-to-render-component-test
-  (testing "should render a component"
-    (-> (try-to-render-component
+(deftest process-control-test
+  (testing "should process a component"
+    (-> (process-control
+          render-component
+          "component"
           ".bar"
           [(fn [_ _] [:div "Hello"])
            [{:name :bar
@@ -48,7 +50,9 @@
         not
         is)
 
-    (-> (try-to-render-component
+    (-> (process-control
+          render-component
+          "component"
           ".bar"
           [(fn [_ _] [:div "Hello"])
            [{:name :bar

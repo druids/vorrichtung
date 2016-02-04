@@ -4,8 +4,9 @@
             [re-frame.core :refer [register-handler path register-sub dispatch dispatch-sync subscribe]]
             [goog.dom :as dom]
             [goog.dom.dataset :as dataset]
-            [vorrichtung.core :refer [register-component start]]
+            [vorrichtung.core :refer [register-component register-control start]]
             [vorrichtung-demo.config :as config]
+            [vorrichtung-demo.controls :refer [simple-control]]
             [vorrichtung-demo.handlers]
             [vorrichtung-demo.subs]
             [vorrichtung-demo.views :refer [simple-component-view]]))
@@ -19,6 +20,7 @@
 
 (register-component ".simple-component" [simple-component-view simple-component-args-desc])
 
+(register-control ".simple-control" [simple-control])
 
 (when config/debug?
   (println "dev mode"))

@@ -7,14 +7,25 @@
 
 
 (def components (reagent/atom []))
+(def controls (reagent/atom []))
 
 
 (defn register-component
+  "Registrates a given component that should be a `vector` with render function (Reagent)
+   and optional arguments descriptions."
   ([selector component]
    (swap! components conj [selector component])))
 
 
+(defn register-control
+  "Registrates a given control that should be a `vector` with function
+   and optional arguments descriptions."
+  ([selector control]
+   (swap! controls conj [selector control])))
+
+
 (defn render-component
+  "Renders a given component via Reagent/render."
   [selector view el validated-args]
   (when (string/blank? (.-id el))
     (re-frame.utils/warn
@@ -26,6 +37,7 @@
 
 
 (defn format-invalid-args
+  "Format invalid arguments for printing."
   [args-desc parsed-args]
   (reduce-kv (fn [invalid-args arg-name [parsed-value valid?]]
                (if valid?
@@ -35,10 +47,10 @@
              parsed-args))
 
 
-(defn log-invalid-component-args
-  [el args-desc validated-args]
+(defn log-invalid-control-args
+  [control-type el args-desc validated-args]
   (re-frame.utils/warn
-    (str "Invalid arguments for component #" (.-id el) ": " (string/join
+    (str "Invalid arguments for " control-type " #" (.-id el) ": " (string/join
                                                               " "
                                                               (format-invalid-args args-desc validated-args))))
   nil)
@@ -49,17 +61,28 @@
   (every? true? (map (fn [[_ [_ valid?]]] valid?) validated-args)))
 
 
-(defn try-to-render-component
-  [selector [view args-desc] el]
+(defn call-control
+  "Call a given control."
+  [selector control el validated-args]
+  (control el validated-args))
+
+
+(defn process-control
+  "Process a given control/component if all arguments are valid,
+   otherwise logs invalid arguments."
+  [caller control-type selector [control args-desc] el]
   (let [validated-args (validate-args args-desc el)]
     (if (all-args-are-valid? validated-args)
-      (render-component selector view el validated-args)
-      (log-invalid-component-args el args-desc validated-args))))
+      (caller selector control el validated-args)
+      (log-invalid-control-args control-type el args-desc validated-args))))
 
 
 (defn start
+  "Main function, should be call when app starts. Iterates over all controls/components and process them."
   []
-  (doseq [[selector component args-desc] @components]
-    (let [els (dom/all selector)]
-      (doseq [el els]
-        (try-to-render-component selector component el)))))
+  (doseq [[caller control-type ctrls] [[call-control "control" controls]
+                                       [render-component "component" components]]]
+    (doseq [[selector control args-desc] (deref ctrls)]
+      (let [els (dom/all selector)]
+        (doseq [el els]
+          (process-control caller control-type selector control el))))))
