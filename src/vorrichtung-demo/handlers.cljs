@@ -6,3 +6,10 @@
  :initialize
  (fn  [_ _]
    db/default-db))
+
+
+(re-frame/register-handler
+  :simple-control-click
+  (fn [db [_ [el]]]
+    (js/console.log _ el)
+    db))
