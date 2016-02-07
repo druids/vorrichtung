@@ -11,7 +11,8 @@
 
   :plugins [[lein-cljsbuild "1.1.1"]
             [lein-figwheel "0.5.0-2"]
-            [lein-doo "0.1.6"]]
+            [lein-doo "0.1.6"]
+            [lein-ancient "0.6.8"]]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"
                                     "test/js"]

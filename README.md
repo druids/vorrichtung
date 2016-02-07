@@ -47,6 +47,10 @@ Development
 * Call `lein dev` to start demo app.
 
 
+### Other commands
+
+* `lein ancient` - shows outdated dependencies and plugins
+
 Testing
 -------
 
