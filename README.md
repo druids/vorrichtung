@@ -6,6 +6,7 @@ Vorrichtung is a lightweight framework for decorating server-side generated HTML
 
 
 [![Build Status](https://travis-ci.org/druids/vorrichtung.svg?branch=master)](https://travis-ci.org/druids/vorrichtung)
+[![Dependencies Status](https://jarkeeper.com/druids/vorrichtung/status.png)](https://jarkeeper.com/druids/vorrichtung)
 
 
 Why should you care?
