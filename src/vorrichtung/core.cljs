@@ -32,7 +32,7 @@
       (str "Component with selector '" selector "' has no ID ")
       el))
   (reagent/render
-    (view el validated-args)
+    [#(view el validated-args)]
     el))
 
 

@@ -29,7 +29,8 @@
 
 (defn create-and-append-el
   [tag klass]
-  (let [el (goog.dom/createDom tag klass)]
+  (let [el (goog.dom/createDom tag (clj->js {:className klass
+                                             :id klass}))]
     (do
       (goog.dom/appendChild (.-body js/document) el)
       el)))
@@ -46,6 +47,7 @@
              :type :string
              :required false}]]
           (create-and-append-el "div" "bar"))
+
         nil?
         not
         is)
@@ -59,9 +61,9 @@
              :type :string
              :required true}]]
           (create-and-append-el "div" "bar"))
+
         nil?
-        is)
-    ))
+        is)))
 
 
 (deftest render-component-test
@@ -71,6 +73,18 @@
           (fn [_ _] [:div "Hello"])
           (create-and-append-el "div" "bar")
           {:name [nil true]})
+
+        nil?
+        not
+        is))
+
+  (testing "should render a component with let"
+    (-> (render-component
+          ".bar"
+          (fn [_ _] (let [a 0] (fn [] [:div "Hello" a])))
+          (create-and-append-el "div" "bar")
+          {:name [nil true]})
+
         nil?
         not
         is)))
