@@ -13,5 +13,7 @@
 
 
 (defn one
-  [selector]
-  (js/document.querySelector selector))
+  ([selector]
+   (one selector js/document))
+  ([selector parent]
+   (.querySelector parent selector)))

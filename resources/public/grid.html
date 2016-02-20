@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset='utf-8'>
+  </head>
+  <body>
+    <div class="grid"
+         id="grid"
+         data-url="http://localhost:8001/api/objednavka/?valid_orders=1"
+         data-order='["-created_at"]'
+         data-columns='[{"id": "created_at_day", "verbose_name": "Objednána dne", "orderable_by": "created_at", "safe_html": false},
+                        {"id": "due_date_legal", "verbose_name": "Splatnost", "orderable_by": "due_date_legal", "safe_html": false},
+                        {"id": "due_date", "verbose_name": "Kdy zaplatit", "orderable_by": "due_date", "safe_html": false},
+                        {"id": "ext_variable_symbol", "verbose_name": "Variabilní symbol", "orderable_by": "ext_variable_symbol", "safe_html": false},
+                        {"id": "total_price", "verbose_name": "Cena", "orderable_by": "total_price", "safe_html": false},
+                        {"id": "get_club_left_to_pay_humanized", "verbose_name": "K úhradě", "orderable_by": null, "safe_html": true},
+                        {"id": "eshop___obj_name", "verbose_name": "E-shop", "orderable_by": "eshop___obj_name", "safe_html": false},
+                        {"id": "admin_field_status", "verbose_name": "Status", "orderable_by": null, "safe_html": false}]'>
+    </div>
+    <script src="js/compiled/app.js"></script>
+    <script>vorrichtung_demo.core.run();</script>
+  </body>
+</html>

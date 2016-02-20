@@ -1,15 +1,11 @@
 (ns vorrichtung.arg-validation
-  (:require [clojure.string :as string]
-            [cognitect.transit :as transit]
-            [reagent.core :as reagent]
-            [goog.dom.dataset :as dataset]
-            [goog.json :as json]
-            [vorrichtung.dom :as dom]
-            [vorrichtung.num :refer [str->int]]
-            [vorrichtung.utils :refer [dash->camel]]))
-
-
-(def json-reader (transit/reader :json))
+  (:require
+    [clojure.string :as string]
+    [reagent.core :as reagent]
+    [goog.dom.dataset :as dataset]
+    [vorrichtung.dom :as dom]
+    [vorrichtung.num :refer [str->int]]
+    [vorrichtung.utils :refer [dash->camel str->keywordize-json]]))
 
 
 (defn validate-string
@@ -29,7 +25,7 @@
    otherwise `false` as a `vector`."
   [value validate-func]
   (try
-    (let [obj (transit/read json-reader value)
+    (let [obj (str->keywordize-json value)
           valid? (validate-func obj)]
       [(if valid? obj value) valid?])
     (catch :default e [value false])))
