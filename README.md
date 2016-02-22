@@ -47,6 +47,10 @@ Simple example
 
 The most simple component could looks like
 
+```html
+<div class="simple-component" id="simple-component"></div>
+```
+
 ```clojure
 (:require [vorrichtung.core :refer [register-component start]])
 
@@ -63,12 +67,19 @@ The most simple component could looks like
 * `el` - DOM element matched via given CSS selector
 * `args` - optional component arguments passed via `data-*` attributes
 
+Every component has to have ID attribute. The ID should by unique through a whole app. With ID you can distinguish between instances
+ of a component. The ID can be used as a prefix of a key in `LocalStorage` etc.
+
 
 Component with arguments
 ------------------------
 
 Let's extend an example above with arguments. Because HTML is generally generated via server sometimes is neccessary passed
  arguments into a component. This can be easily done with Vorrichtung, see following example:
+
+```html
+<div class="simple-component" id="simple-component" data-foo1="bar" foo2=""></div>
+```
 
 ```clojure
 (:require [vorrichtung.core :refer [register-component start]])
