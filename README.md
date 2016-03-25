@@ -119,6 +119,29 @@ First item of a `vector` is a parsed value and second is `bool` (`true` when a v
 For more details see [demo](src/vorrichtung-demo).
 
 
+Controls (vorrichtung.core.controls)
+====================================
+
+show-element
+------------
+
+Shows `target` element by removing the `hidden-class` (default is `hidden`). When the `hidden-class` is removed
+the source element is removed from DOM. The action is fired on `click` event.
+
+```html
+<div id="show-element" data-target="show-me">Click to show show-me</div>
+<div id="show-me" class="hidden"></div>
+```
+
+`hidden-class` can be overridden:
+
+```html
+<div id="show-element" data-target="show-me" data-hidden-class="custom-class">Click to show show-me</div>
+<div id="show-me" class="custom-class"></div>
+```
+
+For more details see [demo](src/vorrichtung-demo).
+
 Development
 -----------
 

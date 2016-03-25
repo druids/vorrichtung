@@ -5,6 +5,7 @@
             [goog.dom :as dom]
             [goog.dom.dataset :as dataset]
             [vorrichtung.core :refer [register-component register-control start]]
+            [vorrichtung.controls.core :refer [show-element show-element-args-desc]]
             [vorrichtung-demo.config :as config]
             [vorrichtung-demo.controls :refer [simple-control]]
             [vorrichtung-demo.handlers]
@@ -21,6 +22,8 @@
 (register-component ".simple-component" [simple-component-view simple-component-args-desc])
 
 (register-control ".simple-control" [simple-control])
+
+(register-control ".show-element" [show-element show-element-args-desc])
 
 (when config/debug?
   (println "dev mode"))
