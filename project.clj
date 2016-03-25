@@ -1,16 +1,16 @@
 (defproject vorrichtung "0.8.2"
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.7.228"]
+                 [org.clojure/clojurescript "1.8.34"]
                  [com.cognitect/transit-cljs "0.8.237"]
                  [reagent "0.5.1"]
-                 [re-frame "0.6.0"]]
+                 [re-frame "0.7.0"]]
 
   :min-lein-version "2.5.3"
 
   :source-paths ["src"]
 
-  :plugins [[lein-cljsbuild "1.1.2"]
-            [lein-figwheel "0.5.0-6"]
+  :plugins [[lein-cljsbuild "1.1.3"]
+            [lein-figwheel "0.5.1"]
             [lein-doo "0.1.6"]
             [lein-ancient "0.6.8"]]
 
