@@ -2,10 +2,17 @@
 <html lang="en">
   <head>
     <meta charset='utf-8'>
+    <style>
+    .hidden {
+      display: none;
+    }
+    </style>
   </head>
   <body>
     <div id="simple-component-1" class="simple-component" data-foo1="bar1" data-foo2="{}" data-foo3="[1, 2, 3]" data-foo4=""></div>
     <div id="simple-control-1" class="simple-control"><h2>Control text, click on me!</h2></div>
+    <div id="show-element" class="show-element" data-target="show-me">Click to show-me element</div>
+    <div id="show-me" class="hidden">I have been hidden</div>
     <script src="js/compiled/app.js"></script>
     <script>vorrichtung_demo.core.run();</script>
   </body>

@@ -10,6 +10,20 @@
 (def controls (reagent/atom []))
 
 
+(defn get-value
+  "Returns a value from given `args`. When the value is blank returns `default` or `nil`."
+  ([args arg-name default]
+   (let [value (-> args
+                   (get arg-name)
+                   first)]
+     (if (string/blank? value)
+       default
+       value)))
+
+  ([args arg-name]
+   (get-value args arg-name nil)))
+
+
 (defn register-component
   "Registrates a given component that should be a `vector` with render function (Reagent)
    and optional arguments descriptions."
