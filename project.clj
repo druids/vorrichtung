@@ -1,4 +1,4 @@
-(defproject vorrichtung "0.8.2"
+(defproject vorrichtung "0.8.3"
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.8.34"]
                  [com.cognitect/transit-cljs "0.8.237"]
