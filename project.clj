@@ -1,6 +1,6 @@
 (defproject vorrichtung "0.8.3"
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.8.34"]
+                 [org.clojure/clojurescript "1.8.51"]
                  [com.cognitect/transit-cljs "0.8.237"]
                  [reagent "0.5.1"]
                  [re-frame "0.7.0"]]
@@ -10,9 +10,9 @@
   :source-paths ["src"]
 
   :plugins [[lein-cljsbuild "1.1.3"]
-            [lein-figwheel "0.5.1"]
+            [lein-figwheel "0.5.3-2"]
             [lein-doo "0.1.6"]
-            [lein-ancient "0.6.8"]]
+            [lein-ancient "0.6.10"]]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"
                                     "test/js"]
