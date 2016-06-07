@@ -31,9 +31,8 @@
   [tag klass]
   (let [el (goog.dom/createDom tag (clj->js {:className klass
                                              :id klass}))]
-    (do
-      (goog.dom/appendChild (.-body js/document) el)
-      el)))
+    (goog.dom/appendChild (.-body js/document) el)
+    el))
 
 
 (deftest process-control-test

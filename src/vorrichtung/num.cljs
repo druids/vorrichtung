@@ -5,6 +5,5 @@
 (defn str->int
   "Parses an integer from a string. Returns `nil` if the value is not a number."
   [value]
-  (if (and (string? value) (re-find #"^-?\d+$" value))
-    (read-string value)
-    nil))
+  (when (and (string? value) (re-find #"^-?\d+$" value))
+    (read-string value)))
