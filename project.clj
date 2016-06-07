@@ -1,6 +1,6 @@
 (defproject vorrichtung "0.8.4"
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.8.51"]
+                 [org.clojure/clojurescript "1.9.36"]
                  [com.cognitect/transit-cljs "0.8.237"]
                  [reagent "0.5.1"]
                  [re-frame "0.7.0"]]
