@@ -1,9 +1,11 @@
 (ns vorrichtung.core
-  (:require [clojure.string :as string]
-            [reagent.core :as reagent]
-            [re-frame.core :as re-frame]
-            [vorrichtung.arg-validation :refer [validate-args]]
-            [vorrichtung.dom :as dom]))
+  (:require
+    [clojure.string :as string]
+    [reagent.core :as reagent]
+    [re-frame.core :as re-frame]
+    [vorrichtung.arg-validation :refer [validate-args]]
+    [vorrichtung.dom :as dom]
+    [vorrichtung.logging :refer [warn]]))
 
 
 (def components (reagent/atom []))
@@ -42,9 +44,7 @@
   "Renders a given component via Reagent/render."
   [selector view el validated-args]
   (when (string/blank? (.-id el))
-    (re-frame.utils/warn
-      (str "Component with selector '" selector "' has no ID ")
-      el))
+    (warn (str "Component with selector '" selector "' has no ID ") el))
   (reagent/render
     [#(view el validated-args)]
     el))
@@ -63,7 +63,7 @@
 
 (defn log-invalid-control-args
   [control-type el args-desc validated-args]
-  (re-frame.utils/warn
+  (warn
     (str "Invalid arguments for " control-type " #" (.-id el) ": " (string/join
                                                               " "
                                                               (format-invalid-args args-desc validated-args))))

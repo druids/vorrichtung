@@ -1,10 +1,11 @@
 (ns vorrichtung.controls.core
-  (:require [re-frame.utils :refer [warn]]
-            [goog.dom :as dom]
-            [goog.dom.classes :as classes]
-            [goog.events :refer [listen]]
-            [goog.events.EventType :refer [CLICK]]
-            [vorrichtung.core :refer [get-value]]))
+  (:require
+    [goog.dom :as dom]
+    [goog.dom.classes :as classes]
+    [goog.events :refer [listen]]
+    [goog.events.EventType :refer [CLICK]]
+    [vorrichtung.core :refer [get-value]]
+    [vorrichtung.logging :refer [warn]]))
 
 
 (defn show-element
