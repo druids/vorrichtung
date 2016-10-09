@@ -8,7 +8,7 @@
                  [reagent "0.5.1"]
                  [re-frame "0.7.0"]]
 
-  :min-lein-version "2.5.3"
+  :min-lein-version "2.5.1"
 
   :source-paths ["src"]
 
