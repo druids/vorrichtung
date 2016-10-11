@@ -67,18 +67,44 @@
   [:id :_obj_name :_rest_links :_actions :_class_names :_web_links :_default_action])
 
 
-(defn nested-field->header-field
-  [nested-field]
-  (let [parts (split nested-field #"__")]
-      (if (> (count parts) 1)
-        (format "%s(%s)" (first parts) (second parts))
-        nested-field)))
+(defn group-by-nested-field
+  "Groups a nested field and returns an updated map.
+   When a column `id` looks like `foo__name` returns:
+   1. for an empty map {'foo' ['name']}
+   2. for a map with an existing key {'foo' ['age' 'name']}
+
+   For a column `id` 'foo' without a subfield returns {'foo' [nil]}"
+  [group-by-columns column]
+  (let [parts (split (:id column) #"__")]
+    (assoc group-by-columns
+           (first parts)
+           (conj (get group-by-columns (first parts) []) (when (> (count parts) 1)
+                                                           (second parts))))))
+
+
+(defn format-grouped-fields
+  "Unpack a given vector into a `prefix` and subfields.
+   When `subfields` is non-empty collection returns a `string` like: 'foo(subfield1,subfield2)',
+   otherwise returns `prefix`."
+  [[prefix subfields]]
+  (let [filtered-subfields (remove nil? subfields)]
+    (if (seq filtered-subfields)
+      (->> filtered-subfields
+           (join ",")
+           (format "%s(%s)" prefix))
+      prefix)))
+
+
+(defn flatten-formatted-nested-fields
+  [columns]
+  (->> columns
+       (reduce group-by-nested-field {})
+       (map format-grouped-fields)))
 
 
 (defn config->header-fields
   [config]
-  (->> (:columns config)
-       (map (comp nested-field->header-field #(get % :id)))
+  (->> (flatten-formatted-nested-fields (:columns config))
        (concat (map name default-fields))
        (join ",")))
 

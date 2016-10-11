@@ -3,9 +3,10 @@
     [cljs.test :refer-macros [deftest testing are is]]
     [linked.core :as linked]
     [vorrichtung.components.grid.db :refer [serialized-order->order ColumnOrder unserialize-order args->config Config Column
-                                            nested-field->header-field config->header-fields next-order-state
+                                            config->header-fields next-order-state group-by-nested-field
                                             apply-next-state config->order-class column-order->serialized-order
-                                            serialize-order order->order-column-map compose-config-path item-value]]))
+                                            serialize-order order->order-column-map compose-config-path item-value
+                                            format-grouped-fields]]))
 
 
 (deftest serialized-order->order-test
@@ -67,23 +68,11 @@
            ))))
 
 
-(deftest nested-field->header-field-test
-
-  (testing "should convert a nested field to a header field"
-    (are [expected nested-field] (nested-field->header-field nested-field)
-
-         "name"
-         "name"
-
-         "person(name)"
-         "person__name"
-
-         ""
-         ""
-         )))
-
-
 (deftest config->header-fields-test
+
+  (def testing-config-more-columns
+    (update testing-config :columns #(conj % (Column. "foo__age" "Age" "age" true))))
+
 
   (testing "should convert a config to header fields"
     (are [expected config] (= expected (config->header-fields config))
@@ -93,6 +82,9 @@
 
          "id,_obj_name,_rest_links,_actions,_class_names,_web_links,_default_action"
          (assoc testing-config :columns [])
+
+         "id,_obj_name,_rest_links,_actions,_class_names,_web_links,_default_action,foo(name,age),bar"
+         testing-config-more-columns
 
          )))
 
@@ -238,5 +230,44 @@
          "bar"
          {:foo {:name "bar"}}
          (Column. "foo__name" "Foo" "foo" true)
+
+         )))
+
+
+(deftest group-by-nested-field-test
+
+  (testing "should group by nested field"
+    (are [expected group-by-columns column] (= expected (group-by-nested-field group-by-columns column))
+
+         {"foo" ["name"]}
+         {}
+         (Column. "foo__name" "Foo" "foo" true)
+
+         {"foo" ["name"] "age" [nil]}
+         {"foo" ["name"]}
+         (Column. "age" "Age" "age" true)
+
+         {"foo" ["name" "age"]}
+         {"foo" ["name"]}
+         (Column. "foo__age" "Age" "age" true)
+      )))
+
+
+(deftest format-grouped-fields-test
+
+  (testing "should format grouped fields"
+    (are [expected prefix subfields] (= expected (format-grouped-fields [prefix subfields]))
+
+         "foo(name,age)"
+         "foo"
+         ["name" "age"]
+
+         "foo(name)"
+         "foo"
+         ["name"]
+
+         "foo"
+         "foo"
+         [nil]
 
          )))
