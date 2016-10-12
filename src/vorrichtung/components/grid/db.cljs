@@ -4,7 +4,8 @@
     [goog.string :refer [format]]
     [goog.string.format]
     [linked.core :as linked]
-    [vorrichtung.core :refer [get-value]]))
+    [vorrichtung.core :refer [get-value]]
+    [vorrichtung.num :refer [str->int]]))
 
 
 (defrecord ColumnOrder [id ordering])
@@ -50,6 +51,9 @@
    order ; [ColumnOrder]
    serialization_format
    namespace ; a grids prefix, override when you want to change a path of grid's data
+   total ; a total count of items
+   offset ; an offset for pagination
+   base ; a count of items per a page
    ])
 
 
@@ -60,7 +64,10 @@
            (get-value args :url)
            (unserialize-order (get-value args :order []))
            :VERBOSE
-           (get-value args :namespace :grid)))
+           (get-value args :namespace :grid)
+           0
+           0
+           (get-value args :base 20)))
 
 
 (def default-fields
@@ -190,3 +197,38 @@
   (->> (split (:id column) #"__")
        (map keyword)
        (get-in item)))
+
+
+(defn headers->total
+  [headers]
+  (str->int (:X-Total headers)))
+
+
+(defn previous-page?
+  "Returns `true` if there is previous page, otherwise `false`."
+  [config]
+  (pos? (:offset config)))
+
+
+(defn next-page?
+  "Returns `true` if there is next page, otherwise `false`."
+  [config]
+  (pos? (reduce - (:total config) [(:offset config) (:base config)])))
+
+
+(defn pos-or-zero
+  [value]
+  (if (pos? value)
+    value
+    0))
+
+
+(defn shift-page
+  "Shifts to previous/next by given `pred` and `op`. `pred` should be a function that returns `true`
+   if `op` should be applied. `op` should be a function that takes `offset` and `base` and makes a computation.
+   This function returns a function that takes a `config` and returns new one."
+  [pred op]
+  (fn [config]
+    (update config :offset #(if (pred config)
+                              (pos-or-zero (op % (:base config)))
+                              %))))

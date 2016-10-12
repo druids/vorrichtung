@@ -6,7 +6,7 @@
                                             config->header-fields next-order-state group-by-nested-field
                                             apply-next-state config->order-class column-order->serialized-order
                                             serialize-order order->order-column-map compose-config-path item-value
-                                            format-grouped-fields]]))
+                                            format-grouped-fields previous-page? next-page? shift-page]]))
 
 
 (deftest serialized-order->order-test
@@ -45,7 +45,10 @@
                              (linked/map "foo__name" (ColumnOrder. "foo__name" :ASC)
                                          "bar" (ColumnOrder. "bar" :DESC))
                              :VERBOSE
-                             "my-grid"))
+                             "my-grid"
+                             0
+                             0
+                             20))
 
 
 (deftest args->config-test
@@ -270,4 +273,109 @@
          "foo"
          [nil]
 
+         )))
+
+
+(deftest previous-page?-test
+
+  (testing "should check previous page"
+    (are [expected config] (= expected (previous-page? config))
+
+         true
+         (merge testing-config {:offset 5
+                                :base 5
+                                :total 10})
+
+         false
+         (merge testing-config {:offset 0
+                                :base 5
+                                :total 10})
+
+         true
+         (merge testing-config {:offset 1
+                                :base 5
+                                :total 10})
+         )))
+
+
+(deftest next-page?-test
+
+  (testing "should check next page"
+    (are [expected config] (= expected (next-page? config))
+
+         true
+         (merge testing-config {:offset 0
+                                :base 5
+                                :total 10})
+
+         false
+         (merge testing-config {:offset 5
+                                :base 5
+                                :total 10})
+
+         false
+         (merge testing-config {:offset 20
+                                :base 5
+                                :total 22})
+         )))
+
+
+(deftest shift-page-test
+
+  (testing "should shift to previous/next page"
+    (are [expected pred op config] (= expected ((shift-page pred op) config))
+
+         (merge testing-config {:offset 0
+                                :base 10
+                                :total 22})
+         previous-page?
+         -
+         (merge testing-config {:offset 0
+                                :base 10
+                                :total 22})
+
+         (merge testing-config {:offset 10
+                                :base 10
+                                :total 22})
+         previous-page?
+         -
+         (merge testing-config {:offset 20
+                                :base 10
+                                :total 22})
+
+         (merge testing-config {:offset 0
+                                :base 10
+                                :total 22})
+         previous-page?
+         -
+         (merge testing-config {:offset 1
+                                :base 10
+                                :total 22})
+
+         (merge testing-config {:offset 10
+                                :base 10
+                                :total 22})
+         next-page?
+         +
+         (merge testing-config {:offset 0
+                                :base 10
+                                :total 22})
+
+         (merge testing-config {:offset 20
+                                :base 10
+                                :total 22})
+         next-page?
+         +
+         (merge testing-config {:offset 10
+                                :base 10
+                                :total 22})
+
+         (merge testing-config {:offset 20
+                                :base 10
+                                :total 22})
+         next-page?
+         +
+         (merge testing-config {:offset 20
+                                :base 10
+                                :total 22})
          )))

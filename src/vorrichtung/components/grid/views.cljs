@@ -2,7 +2,8 @@
   (:require
     [clojure.string :refer [join]]
     [re-frame.core :refer [subscribe dispatch]]
-    [vorrichtung.components.grid.db :refer [config->order-class order->order-column-map item-value]]
+    [vorrichtung.components.grid.db :refer [config->order-class order->order-column-map item-value previous-page?
+                                            next-page?]]
     [vorrichtung.html :refer [safe-html]]
     [vorrichtung.utils :refer [css-class]]))
 
@@ -14,11 +15,11 @@
 
 
 (defn th
-  [config column column-order-index]
+  [config column column-order-index mappings]
   [:th {:class (:id column)}
    (if (:orderable_by column)
      [:div
-      {:on-click #(dispatch [:grid/order-by-column config (:orderable_by column)])}
+      {:on-click #(dispatch [(get-in mappings [:events :order-by-column]) config (:orderable_by column)])}
       [:span {:class (css-class ["sortable" (config->order-class config (:orderable_by column) ordering->class)])}
        (:verbose_name column)]
       [:div.sort-direction]]
@@ -26,12 +27,12 @@
 
 
 (defn thead
-  [config order-column-map th]
+  [config order-column-map th mappings]
   [:thead
    [:tr
     (for [column (:columns config)]
       ^{:key (:id column)}
-      [th config column (order-column-map (:orderable_by column))])]])
+      [th config column (order-column-map (:orderable_by column)) mappings])]])
 
 
 (defn mark-value-as-safe
@@ -72,10 +73,23 @@
      ^{:key (:id item)} [tr config item td])])
 
 
+(defn paginator
+  [config mappings]
+  [:div.paginator
+   [:div {:on-click #(when (previous-page? config)
+                       (dispatch [(get-in mappings [:events :go-to-previous-page]) config]))
+          :class (if (previous-page? config) "enabled" "disabled")}
+    "Previous"]
+   [:div {:on-click #(when (next-page? config)
+                       (dispatch [(get-in mappings [:events :go-to-next-page]) config]))
+          :class (if (next-page? config) "enabled" "disabled")}
+    "Next"]])
+
+
 (defn table
-  [grid-data thead th tbody tr td]
+  [grid-data thead th tbody tr td mappings]
   [:table
-   [thead (:config grid-data) (order->order-column-map (get-in grid-data [:config :order])) th]
+   [thead (:config grid-data) (order->order-column-map (get-in grid-data [:config :order])) th mappings]
    [tbody (:config grid-data) (:data grid-data) tr td]])
 
 

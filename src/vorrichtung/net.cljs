@@ -22,3 +22,11 @@
           headers))
   ([]
    (default-headers {})))
+
+
+(defn xhrio->response-vec
+  "Takes a pure `goog.net.XhrIO` objects and returns it's response as a vector with a response and headers.
+   Both items are CLJS maps."
+  [xhrio]
+  [(-> xhrio .getResponseJson (js->clj :keywordize-keys true))
+   (-> xhrio .getResponseHeaders (js->clj :keywordize-keys true))])
