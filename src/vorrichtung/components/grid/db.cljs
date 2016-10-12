@@ -54,6 +54,7 @@
    total ; a total count of items
    offset ; an offset for pagination
    base ; a count of items per a page
+   progress? ; `true` if a request for data is in progress
    ])
 
 
@@ -67,7 +68,8 @@
            (get-value args :namespace :grid)
            0
            0
-           (get-value args :base 20)))
+           (get-value args :base 20)
+           false))
 
 
 (def default-fields
@@ -232,3 +234,8 @@
     (update config :offset #(if (pred config)
                               (pos-or-zero (op % (:base config)))
                               %))))
+
+
+(defn toggle-progress
+  [db config value]
+  (assoc-in db (conj (compose-config-path config) :progress?) value))

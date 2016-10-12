@@ -48,7 +48,8 @@
                              "my-grid"
                              0
                              0
-                             20))
+                             20
+                             false))
 
 
 (deftest args->config-test

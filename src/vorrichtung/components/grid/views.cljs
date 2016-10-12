@@ -73,16 +73,26 @@
      ^{:key (:id item)} [tr config item td])])
 
 
+(defn show-previous-button?
+  [config]
+  (and (previous-page? config) (not (:progress? config))))
+
+
+(defn show-next-button?
+ [config]
+ (and (next-page? config) (not (:progress? config))))
+
+
 (defn paginator
   [config mappings]
   [:div.paginator
-   [:div {:on-click #(when (previous-page? config)
+   [:div {:on-click #(when (show-previous-button? config)
                        (dispatch [(get-in mappings [:events :go-to-previous-page]) config]))
-          :class (if (previous-page? config) "enabled" "disabled")}
+          :class (if (show-previous-button? config) "enabled" "disabled")}
     "Previous"]
-   [:div {:on-click #(when (next-page? config)
+   [:div {:on-click #(when (show-next-button? config)
                        (dispatch [(get-in mappings [:events :go-to-next-page]) config]))
-          :class (if (next-page? config) "enabled" "disabled")}
+          :class (if (show-next-button? config) "enabled" "disabled")}
     "Next"]])
 
 
