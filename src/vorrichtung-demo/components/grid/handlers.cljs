@@ -2,7 +2,8 @@
   (:require
     [ajax.core :refer [GET]]
     [re-frame.core :refer [register-handler trim-v enrich]]
-    [vorrichtung.components.grid.middlewares :refer [init-data data-loaded order-by-column go-to-previous-page go-to-next-page]]
+    [vorrichtung.components.grid.middlewares :refer [init-data data-loaded order-by-column go-to-previous-page
+                                                     go-to-next-page]]
     [vorrichtung-demo.components.grid.middlewares :refer [load-data]]))
 
 

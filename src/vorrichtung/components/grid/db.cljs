@@ -3,8 +3,10 @@
     [clojure.string :refer [join split]]
     [goog.string :refer [format]]
     [goog.string.format]
+    [re-frame.core :refer [dispatch]]
     [linked.core :as linked]
     [vorrichtung.core :refer [get-value]]
+    [vorrichtung.net :refer [xhrio->response-vec]]
     [vorrichtung.num :refer [str->int]]))
 
 
@@ -239,3 +241,15 @@
 (defn toggle-progress
   [db config value]
   (assoc-in db (conj (compose-config-path config) :progress?) value))
+
+
+(defn dispatch-data-loaded-handler
+  "Dispatch helper that return a handler function for a response.
+   It dispatches an `event-name` with three arguments:
+   1. `config`
+   2. response's data
+   3. response's headers (as a `map`)"
+  [event-name config]
+  (fn [xhrio]
+    (let [response-vec (xhrio->response-vec xhrio)]
+      (dispatch [event-name config (first response-vec) (second response-vec)]))))
