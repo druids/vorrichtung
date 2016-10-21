@@ -19,6 +19,21 @@
    {:name :base :require false :type :int}])
 
 
+(def default-events-map
+  {
+   :init-data :grid/init-data
+   :order-by-column :grid/order-by-column
+   :go-to-previous-page :grid/go-to-previous-page
+   :go-to-next-page :grid/go-to-next-page
+   })
+
+
+(def default-subs-map
+  {
+   :grid-data :grid/grid-data
+   })
+
+
 (def default-components-map
   {
    :table table
