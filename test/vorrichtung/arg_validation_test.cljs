@@ -43,8 +43,8 @@
          "" false nil
          "{}" false {}
          "{}" true {}
-         "{\"a\": \"1\", \"b\": \"2\"}" false {"a" "1" "b" "2"}
-         "{\"a\": \"1\", \"b\": \"2\"}" true {"a" "1" "b" "2"}))
+         "{\"a\": \"1\", \"b\": \"2\"}" false {:a "1" :b "2"}
+         "{\"a\": \"1\", \"b\": \"2\"}" true {:a "1" :b "2"}))
 
   (testing "should not be valid"
     (are [value required] (= [value false] (validate-object value required))

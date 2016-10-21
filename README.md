@@ -119,6 +119,21 @@ First item of a `vector` is a parsed value and second is `bool` (`true` when a v
 For more details see [demo](src/vorrichtung-demo).
 
 
+Build-in components (vorrichtung.components)
+============================================
+
+Grid
+----
+
+There is a grid component that supports:
+
+- ordering
+- paging
+- easy to use custom view components
+
+For more detail see an example in [demo](src/vorrichtung-demo/components/grid)
+
+
 Controls (vorrichtung.core.controls)
 ====================================
 
