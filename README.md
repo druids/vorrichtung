@@ -128,6 +128,7 @@ Grid
 There is a grid component that supports:
 
 - ordering
+- paging
 - easy to use custom view components
 
 For more detail see an example in [demo](src/vorrichtung-demo/components/grid)
