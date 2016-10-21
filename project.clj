@@ -1,4 +1,4 @@
-(defproject vorrichtung "0.8.5"
+(defproject vorrichtung "0.9.0"
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.36"]
                  [binaryage/devtools "0.8.2"]
