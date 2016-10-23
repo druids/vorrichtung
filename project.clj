@@ -1,20 +1,20 @@
 (defproject vorrichtung "0.9.1"
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.36"]
+                 [org.clojure/clojurescript "1.9.293"]
                  [binaryage/devtools "0.8.2"]
-                 [cljs-ajax "0.5.3"]
-                 [frankiesardo/linked "1.2.8"]
+                 [cljs-ajax "0.5.8"]
+                 [frankiesardo/linked "1.2.9"]
                  [lein-kibit "0.1.2"]
-                 [reagent "0.5.1"]
-                 [re-frame "0.7.0"]]
+                 [reagent "0.6.0"]
+                 [re-frame "0.8.0"]]
 
   :min-lein-version "2.5.1"
 
   :source-paths ["src"]
 
-  :plugins [[lein-cljsbuild "1.1.3"]
-            [lein-figwheel "0.5.3-2"]
-            [lein-doo "0.1.6"]
+  :plugins [[lein-cljsbuild "1.1.4"]
+            [lein-figwheel "0.5.8"]
+            [lein-doo "0.1.7"]
             [lein-ancient "0.6.10"]
             [lein-kibit "0.1.2"]]
 
