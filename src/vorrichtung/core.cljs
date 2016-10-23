@@ -1,9 +1,12 @@
 (ns vorrichtung.core
-  (:require [clojure.string :as string]
-            [reagent.core :as reagent]
-            [re-frame.core :as re-frame]
-            [vorrichtung.arg-validation :refer [validate-args]]
-            [vorrichtung.dom :as dom]))
+  (:require
+    [clojure.string :refer [blank? join]]
+    [goog.string.format]
+    [goog.string :refer [format]]
+    [reagent.core :as reagent]
+    [re-frame.loggers :refer [console]]
+    [vorrichtung.arg-validation :refer [validate-args]]
+    [vorrichtung.dom :as dom]))
 
 
 (def components (reagent/atom []))
@@ -16,7 +19,7 @@
    (let [value (-> args
                    (get arg-name)
                    first)]
-     (if (string/blank? value)
+     (if (blank? value)
        default
        value)))
 
@@ -41,10 +44,8 @@
 (defn render-component
   "Renders a given component via Reagent/render."
   [selector view el validated-args]
-  (when (string/blank? (.-id el))
-    (re-frame.utils/warn
-      (str "Component with selector '" selector "' has no ID ")
-      el))
+  (when (blank? (.-id el))
+    (console :warn (str "Component with selector '" selector "' has no ID ") el))
   (reagent/render
     [#(view el validated-args)]
     el))
@@ -63,11 +64,10 @@
 
 (defn log-invalid-control-args
   [control-type el args-desc validated-args]
-  (re-frame.utils/warn
-    (str "Invalid arguments for " control-type " #" (.-id el) ": " (string/join
-                                                              " "
-                                                              (format-invalid-args args-desc validated-args))))
-  nil)
+  (console :warn (format "Invalid arguments for %s #%s: %s"
+                         control-type
+                         (.-id el)
+                         (join " " (format-invalid-args args-desc validated-args)))))
 
 
 (defn all-args-are-valid?
