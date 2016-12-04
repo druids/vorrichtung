@@ -1,14 +1,35 @@
 (ns vorrichtung.num-test
-  (:require [cljs.test :refer-macros [deftest testing is]]
-            [vorrichtung.num :refer [str->int]]))
+  (:require
+    [cljs.test :refer-macros [deftest testing are]]
+    [vorrichtung.num :refer [str->int str->float]]))
 
 
 (deftest str->int-test
-  (testing "should parse a decimal"
-    (is (= 10 (str->int "10"))))
 
-  (testing "should parse a negative decimal"
-    (is (= -10 (str->int "-10"))))
+  (testing "should parse an integer"
 
-  (testing "should return nil"
-    (is (nil? (str->int "asdf")))))
+    (are [expected value] (= expected (str->int value))
+
+         10 "10"
+         -10 "-10"
+         nil "asdf"
+         nil "100.00"
+         nil "100."
+
+         )))
+
+
+(deftest str->float-test
+
+  (testing "should parse a float"
+
+    (are [expected value] (= expected (str->float value))
+
+         10 "10"
+         -10 "-10"
+         nil "asdf"
+         100.01 "100.01"
+         -100.01 "-100.01"
+         nil "100."
+
+         )))
