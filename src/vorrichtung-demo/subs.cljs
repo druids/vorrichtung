@@ -1,8 +1,8 @@
 (ns vorrichtung-demo.subs
-  (:require-macros [reagent.ratom :refer [reaction]])
-  (:require [re-frame.core :as re-frame]))
+  (:require
+    [re-frame.core :refer [reg-sub]]))
 
-(re-frame/register-sub
+(reg-sub
  :name
- (fn [db]
-   (reaction (:name @db))))
+ (fn [db _]
+   (:name db)))

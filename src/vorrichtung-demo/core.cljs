@@ -1,9 +1,7 @@
 (ns vorrichtung-demo.core
-  (:require-macros
-    [reagent.ratom :refer [reaction]])
   (:require
     [reagent.core :as reagent]
-    [re-frame.core :refer [register-handler path register-sub dispatch dispatch-sync subscribe]]
+    [re-frame.core :refer [dispatch dispatch-sync]]
     [goog.dom :as dom]
     [goog.dom.dataset :as dataset]
     [devtools.core :as devtools]
