@@ -1,43 +1,43 @@
 (ns vorrichtung-demo.components.grid.handlers
   (:require
     [ajax.core :refer [GET]]
-    [re-frame.core :refer [register-handler trim-v enrich]]
+    [re-frame.core :refer [reg-event-db enrich]]
     [vorrichtung.components.grid.middlewares :refer [init-data data-loaded order-by-column go-to-previous-page
                                                      go-to-next-page]]
     [vorrichtung-demo.components.grid.middlewares :refer [load-data]]))
 
 
-(register-handler
+(reg-event-db
   :grid/init-data
-  (comp load-data init-data trim-v)
+  [load-data init-data]
   (fn [db _]
     db))
 
 
-(register-handler
+(reg-event-db
   :grid/data-loaded
-  (comp data-loaded trim-v)
+  [data-loaded]
   (fn [db _]
     db))
 
 
-(register-handler
+(reg-event-db
   :grid/order-by-column
-  (comp load-data order-by-column trim-v)
+  [load-data order-by-column]
   (fn [db _]
     (js/console.log db _)
     db))
 
 
-(register-handler
+(reg-event-db
   :grid/go-to-previous-page
-  (comp load-data go-to-previous-page trim-v)
+  [load-data go-to-previous-page]
   (fn [db _]
     db))
 
 
-(register-handler
+(reg-event-db
   :grid/go-to-next-page
-  (comp load-data go-to-next-page trim-v)
+  [load-data go-to-next-page]
   (fn [db _]
     db))

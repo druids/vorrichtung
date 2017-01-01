@@ -1,14 +1,15 @@
 (ns vorrichtung-demo.handlers
-  (:require [re-frame.core :as re-frame]
-            [vorrichtung-demo.db :as db]))
+  (:require
+    [re-frame.core :refer [reg-event-db]]
+    [vorrichtung-demo.db :as db]))
 
-(re-frame/register-handler
+(reg-event-db
  :initialize
  (fn  [_ _]
    db/default-db))
 
 
-(re-frame/register-handler
+(reg-event-db
   :simple-control-click
   (fn [db [_ [el]]]
     (js/console.log _ el)

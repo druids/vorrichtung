@@ -1,8 +1,6 @@
-(ns vorrichtung.components.grid.subs
-  (:require-macros
-    [reagent.ratom :refer [reaction]]))
+(ns vorrichtung.components.grid.subs)
 
 
 (defn subscribe-grid-data
   [db [_ path]]
-  (reaction (get-in @db path nil)))
+  (get-in db path))

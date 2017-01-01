@@ -6,13 +6,13 @@
                  [frankiesardo/linked "1.2.9"]
                  [lein-kibit "0.1.3"]
                  [reagent "0.6.0"]
-                 [re-frame "0.8.0"]]
+                 [re-frame "0.9.1"]]
 
   :min-lein-version "2.5.1"
 
   :source-paths ["src"]
 
-  :plugins [[lein-cljsbuild "1.1.4"]
+  :plugins [[lein-cljsbuild "1.1.5"]
             [lein-figwheel "0.5.8"]
             [lein-doo "0.1.7"]
             [lein-ancient "0.6.10"]
@@ -35,6 +35,7 @@
                        {:id "test"
                         :source-paths ["src/vorrichtung" "test"]
                         :compiler {:output-to "resources/public/js/compiled/test.js"
+                                   :output-dir "resources/public/js/compiled/test/out"
                                    :main vorrichtung.runner
                                    :optimizations :none}}
 
@@ -42,6 +43,7 @@
                         :source-paths ["src"]
                         :compiler {:main vorrichtung.core
                                    :output-to "resources/public/js/compiled/app.js"
+                                   :output-dir "resources/public/js/compiled/min/out"
                                    :optimizations :advanced
                                    :closure-defines {goog.DEBUG false}
                                    :pretty-print false}}]}
