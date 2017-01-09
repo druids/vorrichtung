@@ -41,6 +41,7 @@
 
 (def testing-config (Config. :grid
                              [(Column. "foo__name" "Foo" "foo" true) (Column. "bar" "Bar" "bar-alt" false)]
+                             []
                              "/grid"
                              (linked/map "foo__name" (ColumnOrder. "foo__name" :ASC)
                                          "bar" (ColumnOrder. "bar" :DESC))
@@ -74,21 +75,21 @@
 
 (deftest config->header-fields-test
 
-  (def testing-config-more-columns
-    (update testing-config :columns #(conj % (Column. "foo__age" "Age" "age" true))))
-
 
   (testing "should convert a config to header fields"
+
     (are [expected config] (= expected (config->header-fields config))
 
-         "id,_obj_name,_rest_links,_actions,_class_names,_web_links,_default_action,foo(name),bar"
-         testing-config
+         "id,_obj_name,_rest_links,_actions,_class_names,_web_links,_default_action,extra_field_name,foo(name),bar"
+         (assoc testing-config :extra_fields ["extra_field_name"])
 
-         "id,_obj_name,_rest_links,_actions,_class_names,_web_links,_default_action"
-         (assoc testing-config :columns [])
+         "id,_obj_name,_rest_links,_actions,_class_names,_web_links,_default_action,extra_field_name"
+         (-> testing-config
+             (assoc :columns [])
+             (assoc :extra_fields ["extra_field_name"]))
 
          "id,_obj_name,_rest_links,_actions,_class_names,_web_links,_default_action,foo(name,age),bar"
-         testing-config-more-columns
+         (update testing-config :columns #(conj % (Column. "foo__age" "Age" "age" true)))
 
          )))
 
