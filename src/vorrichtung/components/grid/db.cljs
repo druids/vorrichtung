@@ -49,6 +49,7 @@
   [
    id ; grid ID
    columns ; list of Column
+   extra_fields ; list of fields, that will be used for HTTPS headers, but will not be shown in a grid
    url ; an URL as a string
    order ; [ColumnOrder]
    serialization_format
@@ -64,6 +65,7 @@
   [el args]
   (Config. (keyword (.-id el))
            (map #(map->Column. %) (get-value args :columns))
+           []
            (get-value args :url)
            (unserialize-order (get-value args :order []))
            :VERBOSE
@@ -116,7 +118,7 @@
 (defn config->header-fields
   [config]
   (->> (flatten-formatted-nested-fields (:columns config))
-       (concat (map name default-fields))
+       (concat (map name default-fields) (:extra_fields config))
        (join ",")))
 
 

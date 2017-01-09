@@ -9,6 +9,7 @@
 
 (def testing-config (Config. "my-grid"
                              [(Column. "foo__name" "Foo" "foo" true) (Column. "bar" "Bar" "bar-alt" false)]
+                             []
                              "/grid"
                              (linked/map "foo__name" (ColumnOrder. "foo__name" :ASC)
                                          "bar" (ColumnOrder. "bar" :DESC))
