@@ -1,7 +1,7 @@
 (defproject vorrichtung "0.9.5"
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.293"]
-                 [binaryage/devtools "0.8.3"]
+                 [org.clojure/clojurescript "1.9.473"]
+                 [binaryage/devtools "0.9.1"]
                  [cljs-ajax "0.5.8"]
                  [frankiesardo/linked "1.2.9"]
                  [lein-kibit "0.1.3"]
@@ -13,7 +13,7 @@
   :source-paths ["src"]
 
   :plugins [[lein-cljsbuild "1.1.5"]
-            [lein-figwheel "0.5.8"]
+            [lein-figwheel "0.5.9"]
             [lein-doo "0.1.7"]
             [lein-ancient "0.6.10"]
             [lein-kibit "0.1.3"]]
