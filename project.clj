@@ -1,12 +1,12 @@
 (defproject vorrichtung "0.9.5"
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.473"]
-                 [binaryage/devtools "0.9.1"]
+                 [org.clojure/clojurescript "1.9.495"]
+                 [binaryage/devtools "0.9.2"]
                  [cljs-ajax "0.5.8"]
                  [frankiesardo/linked "1.2.9"]
                  [lein-kibit "0.1.3"]
-                 [reagent "0.6.0"]
-                 [re-frame "0.9.1"]]
+                 [reagent "0.6.1"]
+                 [re-frame "0.9.2"]]
 
   :min-lein-version "2.5.1"
 
